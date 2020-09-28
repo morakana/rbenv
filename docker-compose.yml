@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+  rbenv:
+    build:
+      context: .
+      dockerfile: ./Dockerfile_rbenv_ubuntu20.04
+    image: rbenv:ubuntu20.04
+    container_name: rbenv
+    environment:
+      - DISPLAY=${DISPLAY} # GUIアプリを利用する場合 ホスト側で xhost +local:docker を実行しておく
+    volumes:
+      - "./ruby_script:/root/ruby_script:z"
+    tty: true
+    init: true
+    entrypoint: "/bin/bash"
+    command: ""
+    network_mode: host
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-file: '1'
+        max-size: 5m
+
